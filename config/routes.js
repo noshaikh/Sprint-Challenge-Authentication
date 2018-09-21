@@ -1,8 +1,8 @@
-const { secret } = require("./../_secrets/keys");
+const axios = require("axios");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+
 const db = require("./../database/dbConfig");
-const { authenticate } = require("./middlewares");
+const { authenticate, generateToken } = require("./middlewares");
 
 module.exports = server => {
   server.post("/api/register", register);

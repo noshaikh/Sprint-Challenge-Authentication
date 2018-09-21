@@ -14,11 +14,13 @@ function authenticate(req, res, next) {
 
   if (token) {
     jwt.verify(token, jwtKey, (err, decoded) => {
-      if (err) return res.status(401).json(err);
+      if (err) {
+        return res.status(401).json(err);
+      } else {
+        req.decoded = decoded;
 
-      req.decoded = decoded;
-
-      next();
+        next();
+      }
     });
   } else {
     return res.status(401).json({
@@ -34,7 +36,8 @@ function generateToken(user) {
 
   const options = {
     expiresIn: "1h",
-    jwtid: "12345" //jti
+    jwtid: "12345", //jti
+    subject: `${user.id}`
   };
 
   return jwt.sign(payload, jwtKey, options);
